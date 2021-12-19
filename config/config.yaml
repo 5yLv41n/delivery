@@ -1,0 +1,12 @@
+parameters:
+  gmail.mail_connection_string: '%env(GMAIL_MAIL_CONNECTION_STRING)%'
+  gmail.mail_username: '%env(GMAIL_MAIL_USERNAME)%'
+  gmail.mail_password: '%env(GMAIL_MAIL_PASSWORD)%'
+
+  free.mail_connection_string: '%env(FREE_MAIL_CONNECTION_STRING)%'
+  free.mail_username: '%env(FREE_MAIL_USERNAME)%'
+  free.mail_password: '%env(FREE_MAIL_PASSWORD)%'
+
+  hotmail.mail_connection_string: '%env(HOTMAIL_MAIL_CONNECTION_STRING)%'
+  hotmail.mail_username: '%env(HOTMAIL_MAIL_USERNAME)%'
+  hotmail.mail_password: '%env(HOTMAIL_MAIL_PASSWORD)%'

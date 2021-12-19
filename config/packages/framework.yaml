@@ -1,0 +1,9 @@
+framework:
+    secret: '%env(APP_SECRET)%'
+    
+    http_client:
+        scoped_clients:
+            calendar.client:
+                base_uri: '%env(GOOGLE_CALENDAR_BASE_URI)%'
+            calendar_auth.client:
+                base_uri: '%env(GOOGLE_CALENDAR_AUTH_URI)%'

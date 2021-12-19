@@ -1,0 +1,41 @@
+version: '3'
+
+## NOTES:
+# if you see ${SOME_VAR} in this file,
+# these values are taken from .env file
+
+#########################
+#          DEV          #
+#########################
+
+services:
+  php:
+    container_name: php-${PROJECT}
+    build: ./.docker/php
+    env_file:
+      - .env
+      - .env.local
+    restart: "${RESTART_POLICIES}"
+    environment:
+      COMPOSER_CACHE_DIR: /srv/cache/composer-cache
+      SSH_AUTH_SOCK: /ssh-agent
+      TZ: ${TIMEZONE}
+      XDEBUG_CONFIG: remote_host=<REMOTE_HOST>
+      XDEBUG_MODE: ~
+    volumes:
+      - .:/var/www/html
+      - $SSH_AUTH_SOCK:/ssh-agent
+      - cache:/srv/cache
+    working_dir: /var/www/html
+    command:
+      - "php-fpm"
+    networks:
+      - "chewam-delivery-network"
+
+networks:
+  chewam-delivery-network:
+    driver: bridge
+
+volumes:
+  cache:
+    external: true

@@ -1,0 +1,7 @@
+vendor
+var
+token.json
+.env.local
+credentials.json
+specs
+.php-cs-fixer.cache

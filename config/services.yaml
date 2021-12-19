@@ -1,0 +1,60 @@
+imports:
+    - { resource: config.yaml }
+
+parameters:
+    resources_path: '%kernel.project_dir%/resources'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        
+    _instanceof:
+        App\Infrastructure\Client\EmailClient\EmailClientInterface:
+            tags: ['app.email_client']
+            
+    App\Infrastructure\Client\EmailClient\EmailClientInterface: '@App\Infrastructure\Client\EmailClient\EmailClient'
+
+    App\Infrastructure\Command\:
+        resource: '../src/Infrastructure/Command'
+        tags: ['console.command']
+
+    App\Domain\ResourceLoader\:
+        resource: '../src/Domain/ResourceLoader'
+        bind:
+            $resourcePath: '%resources_path%'
+            
+    App\UseCase\:
+        resource: '../src/UseCase'
+
+
+###> Services Email Client
+        
+    gmail.client:
+        class: App\Infrastructure\Client\EmailClient\EmailClient
+        arguments:
+            $mailboxConnectionString: '%gmail.mail_connection_string%'
+            $username: '%gmail.mail_username%'
+            $password: '%gmail.mail_password%'
+
+    free.client:
+        class: App\Infrastructure\Client\EmailClient\EmailClient
+        arguments:
+            $mailboxConnectionString: '%free.mail_connection_string%'
+            $username: '%free.mail_username%'
+            $password: '%free.mail_password%'
+
+    hotmail.client:
+        class: App\Infrastructure\Client\EmailClient\EmailClient
+        arguments:
+            $mailboxConnectionString: '%hotmail.mail_connection_string%'
+            $username: '%hotmail.mail_username%'
+            $password: '%hotmail.mail_password%'
+
+###< Services Email Client
+
+    App\UseCase\ParserUseCase:
+        arguments:
+            $emailClients: !tagged_locator { tag: 'app.email_client' }
+            
+    App\Infrastructure\Client\CalendarClient\CalendarClient: ~

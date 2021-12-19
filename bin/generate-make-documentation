@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+GREEN=$(tput -Txterm setaf 2)
+YELLOW=$(tput -Txterm setaf 3)
+BLUE=$(tput -Txterm setaf 4)
+BOLD=$(tput -Txterm bold)
+RESET=$(tput -Txterm sgr0)
+
+printf "%s%sUsage:%s make <target>\n\n" "${BLUE}" "${BOLD}" "${RESET}"
+printf "%s%sTargets%s:\n" "${BLUE}" "${BOLD}" "${RESET}"
+
+while IFS= read -r LINE
+do
+    if [[ "${LINE}" =~ \#\#\#.*\#\#\# ]]
+    then
+        TARGET_GROUP_NAME=$(echo "${LINE}" | sed "s/### //" | sed "s/ ###//")
+        printf "\n${GREEN}${BOLD}%s${RESET}\n" "${TARGET_GROUP_NAME}"
+    fi
+
+    if [[ "${LINE}" =~ ^[^#[:space:]].*: ]]
+    then
+        if [[ "${LINE}" =~ .*:=.* ]] || [[ "${LINE}" =~ .PHONY|.SUFFIXES|.DEFAULT|.PRECIOUS|.INTERMEDIATE|.SECONDARY|.SECONDEXPANSION|.DELETE_ON_ERROR|.IGNORE|.LOW_RESOLUTION_TIME|.SILENT|.EXPORT_ALL_VARIABLES|.NOTPARALLEL|.ONESHELL|.POSIX ]]
+        then
+          continue
+        fi
+
+        [[ "$LINE" =~ .*\#\#.* ]] && TARGET_HELP="${LINE#*\#\#}" || TARGET_HELP=""
+         TARGET_NAME=${LINE%:*}
+
+         printf "  %s%-50s%s%s\n" "${YELLOW}" "${TARGET_NAME}" "${RESET}" "${TARGET_HELP/ /}"
+    fi
+done < "${1}/Makefile"

@@ -1,0 +1,9 @@
+grumphp:
+    hooks_dir: ./.grumphp/hooks
+    tasks:
+        phpcsfixer2:
+            allow_risky: true
+            config: '.php-cs-fixer.php'
+            verbose: true
+            diff: true
+        phpstan: ~

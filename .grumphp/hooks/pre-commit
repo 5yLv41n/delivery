@@ -1,0 +1,5 @@
+#!/bin/sh
+ 
+DIFF=$(git diff -r -p -m -M --full-index --staged | cat)
+ 
+(cd "${HOOK_EXEC_PATH}" && printf "%s\n" "${DIFF}" | docker-compose run php $(HOOK_COMMAND) '--skip-success-ouptut')

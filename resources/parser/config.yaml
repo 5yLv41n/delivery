@@ -1,0 +1,8 @@
+amazon:
+    from: commande@amazon.fr
+    email_client: ['gmail.client', 'free.client']
+
+zalando:
+    from: info@service-mail.zalando.fr
+    email_client: ['free.client']
+    subject: "Merci pour votre commande"
